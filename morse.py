@@ -50,17 +50,36 @@ MORSE_CODE = {
 
 def find_mult(bits):
     """Finds least amount of occurrences of 0 or 1"""
-    # your code here
-    return
+    smallest_zeros = len(
+        min([group for group in bits.split('1') if group != '']))
+    smallest_ones = len(
+        min([group for group in bits.split('0') if group != '']))
+    return min(smallest_zeros, smallest_ones)
 
 
-def decodeBits(bits):
+def decode_bits(bits):
     """Translate a string of 1's & 0's to dots and dashes"""
-    # your code here
-    return
+    unit = find_mult(bits)
+    stmt = bits.replace('0' * unit * 7, '   ').replace('0' *
+                                                       unit * 3, ' ')
+    morse_code = stmt.replace(
+        '1' * unit * 3, '-').replace('1' * unit, '.').replace('0' * unit, '')
+    return morse_code
 
 
 def decodeMorse(morse_code):
     """Translates a string of dots and dashes to human readable text"""
-    # your code here
-    return
+    decoded = ''
+    morse_words = morse_code.split('   ')
+    for morse_word in morse_words:
+        for morse_char in morse_word.split():
+            decoded += MORSE_CODE[morse_char]
+        decoded += ' '
+    print(len(decoded.strip()))
+    return decoded.strip()
+
+
+# print(find_mult('1100110011001100000011000000111111001100111111001111110000000000000011001111110011111100111111000000110011001111110000001111110011001100000011')))
+print(decode_bits('1100110011001100000011000000111111001100111111001111110000000000000011001111110011111100111111000000110011001111110000001111110011001100000011'))
+# print('.... . -.--   .--- ..- -.. .')
+# print(decodeMorse('.... . -.--   .--- ..- -.. .'))
